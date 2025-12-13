@@ -5,16 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          utils: ['zustand', 'clsx', 'tailwind-merge'],
-          icons: ['@mui/icons-material'], // If using mui icons, separate them
-        },
-      },
-    },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1600,
   },
   server: {
     port: 3000,

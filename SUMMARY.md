@@ -1,7 +1,7 @@
 
 # One Medi: Implementation Summary
 
-**Date:** October 2023  
+**Date:** October 2025  
 **Status:** High-Fidelity Functional Prototype / MVP Candidate
 
 ---

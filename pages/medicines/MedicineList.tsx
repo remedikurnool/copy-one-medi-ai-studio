@@ -1,12 +1,12 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MEDICINES } from '../../constants';
 import { useCartStore } from '../../store/cartStore';
 import { triggerCartAnimation } from '../../components/ui/FlyingCartAnimation';
 import { PrescriptionPromo } from '../../components/ui/PrescriptionPromo';
+import { MEDICINES } from '../../constants';
 
-// Visual Categories Data
+// Visual Categories Data (Static navigation)
 const CATEGORY_GRID = [
   { name: 'Personal Care', icon: 'https://cdn-icons-png.flaticon.com/128/3050/3050154.png', filter: 'Personal Care', color: 'bg-pink-50 text-pink-600' },
   { name: 'Skin & Hair', icon: 'https://cdn-icons-png.flaticon.com/128/6995/6995874.png', filter: 'Skin', color: 'bg-purple-50 text-purple-600' },
@@ -25,10 +25,18 @@ export default function MedicineList() {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const filteredMedicines = MEDICINES.filter(med => {
+  const toggleCategory = (cat: string) => {
+    if (selectedCategory === cat) {
+      setSelectedCategory('All');
+    } else {
+      setSelectedCategory(cat);
+    }
+  };
+
+  // Client-side filtering on mock data
+  const filteredMedicines = MEDICINES.filter((med: any) => {
     const matchesSearch = med.name.toLowerCase().includes(search.toLowerCase());
-    // Fuzzy matching for category to handle "Nutrition" -> "Supplements" mapping implicitly if needed, or exact match from constants
-    const matchesCategory = selectedCategory === 'All' || med.category.includes(selectedCategory) || (selectedCategory === 'Nutrition' && med.category === 'Supplements');
+    const matchesCategory = selectedCategory === 'All' || med.category.includes(selectedCategory);
     return matchesSearch && matchesCategory;
   });
 
@@ -44,17 +52,9 @@ export default function MedicineList() {
       image: med.image,
       packSize: med.packSize,
       qty: 1,
-      discount: med.discount,
+      discount: med.discount || '',
       isPrescriptionRequired: med.isPrescriptionRequired
     });
-  };
-
-  const toggleCategory = (cat: string) => {
-    if (selectedCategory === cat) {
-      setSelectedCategory('All');
-    } else {
-      setSelectedCategory(cat);
-    }
   };
 
   return (
@@ -125,17 +125,17 @@ export default function MedicineList() {
       </div>
 
       <main className="flex-1 p-4 pt-0 flex flex-col gap-4">
-        {filteredMedicines.map((med) => (
+        {filteredMedicines.map((med: any) => (
           <div 
             key={med.id} 
-            onClick={() => navigate(`/medicines/${med.id}`)}
+            onClick={() => navigate(`/medicines/${med.id}`)} 
             className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 flex gap-4 relative cursor-pointer active:scale-[0.99] transition-transform"
           >
              {med.discount && (
                <div className="absolute top-4 left-4 z-10 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">{med.discount}</div>
              )}
-             <div className="w-28 h-28 shrink-0 bg-white rounded-xl flex items-center justify-center p-2 border border-gray-100 dark:border-gray-700">
-                <img src={med.image} alt={med.name} className="w-full h-full object-contain" />
+             <div className="w-28 h-28 shrink-0 bg-white rounded-xl flex items-center justify-center p-2 border border-gray-100 dark:border-gray-700 overflow-hidden">
+                <img src={med.image} alt={med.name} className="w-full h-full object-contain mix-blend-multiply dark:mix-blend-normal" />
              </div>
              <div className="flex-1 flex flex-col justify-between">
                 <div>
@@ -152,8 +152,8 @@ export default function MedicineList() {
                 </div>
                 <div className="flex items-end justify-between mt-2">
                    <div>
-                     <p className="text-xl font-bold text-slate-900 dark:text-white">₹{med.price}</p>
-                     <p className="text-xs text-gray-400 line-through">₹{med.mrp}</p>
+                     <p className="text-xl font-bold text-slate-900 dark:text-white">₹{med.price.toFixed(2)}</p>
+                     {med.mrp > med.price && <p className="text-xs text-gray-400 line-through">₹{med.mrp.toFixed(2)}</p>}
                    </div>
                    <button 
                     onClick={(e) => handleAdd(e, med)}
@@ -169,7 +169,7 @@ export default function MedicineList() {
              <div className="size-20 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mb-3">
                <span className="material-symbols-outlined text-4xl text-gray-300">medication_liquid</span>
              </div>
-             <p className="text-sm font-medium">No medicines found in this category.</p>
+             <p className="text-sm font-medium">No medicines found.</p>
              <button onClick={() => setSelectedCategory('All')} className="mt-4 text-primary font-bold text-sm border border-primary/20 px-4 py-2 rounded-lg hover:bg-primary/5 transition-colors">
                View All Medicines
              </button>

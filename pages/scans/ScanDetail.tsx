@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MEDICAL_SCANS } from '../../constants';
@@ -6,7 +7,8 @@ import { useCartStore } from '../../store/cartStore';
 export default function ScanDetail() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { scanId } = location.state || { scanId: 'ms1' }; // Default to ms1 if no state
+  const state = location.state as { scanId?: string } | null;
+  const scanId = state?.scanId || 'ms1';
   const scan = MEDICAL_SCANS.find(s => s.id === scanId) || MEDICAL_SCANS[0];
 
   const [selectedVariant, setSelectedVariant] = useState(scan.variants[0]);

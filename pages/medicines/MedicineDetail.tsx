@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { MEDICINES } from '../../constants';
 import { useCartStore } from '../../store/cartStore';
 import { triggerCartAnimation } from '../../components/ui/FlyingCartAnimation';

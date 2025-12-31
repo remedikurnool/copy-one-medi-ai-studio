@@ -61,20 +61,22 @@ const App = () => {
       <FlyingCartAnimation />
       <Suspense fallback={<GlobalLoadingSkeleton />}>
         <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/profile" element={<Profile />} />
-            
-            {/* Module Listing Pages with Bottom Nav */}
-            <Route path="/medicines" element={<MedicineList />} />
-            <Route path="/doctors" element={<DoctorList />} />
-            <Route path="/scans" element={<ScanList />} />
-            <Route path="/lab-tests" element={<LabTestList />} />
-          </Route>
+          {/* Main Layout Routes */}
+          <Route path="/" element={<Layout><Home /></Layout>} />
+          <Route path="/bookings" element={<Layout><Bookings /></Layout>} />
+          <Route path="/chat" element={<Layout><Chat /></Layout>} />
+          <Route path="/profile" element={<Layout><Profile /></Layout>} />
+          
+          <Route path="/medicines" element={<Layout><MedicineList /></Layout>} />
+          <Route path="/doctors" element={<Layout><DoctorList /></Layout>} />
+          <Route path="/scans" element={<Layout><ScanList /></Layout>} />
+          <Route path="/lab-tests" element={<Layout><LabTestList /></Layout>} />
+          <Route path="/home-care" element={<Layout><HomeCareList /></Layout>} />
+          <Route path="/physiotherapy" element={<Layout><PhysioList /></Layout>} />
+          <Route path="/diabetes-care" element={<Layout><DiabetesCare /></Layout>} />
+          <Route path="/hospitals" element={<Layout><HospitalList /></Layout>} />
 
-          {/* Full Screen Pages (No Bottom Nav) */}
+          {/* Full Screen Pages */}
           <Route path="/medicines/:id" element={<MedicineDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
@@ -89,17 +91,10 @@ const App = () => {
           
           <Route path="/lab-tests/:id" element={<LabTestDetail />} />
           <Route path="/lab-tests/booking" element={<LabBooking />} />
-          
-          <Route path="/home-care" element={<HomeCareList />} />
+
           <Route path="/home-care/:id" element={<HomeCareDetail />} />
-          
-          <Route path="/physiotherapy" element={<PhysioList />} />
           <Route path="/physiotherapy/:id" element={<PhysioDetail />} />
           
-          <Route path="/diabetes-care" element={<DiabetesCare />} />
-          <Route path="/hospitals" element={<HospitalList />} />
-          
-          {/* Profile Routes */}
           <Route path="/profile/edit" element={<ProfileEdit />} />
           <Route path="/profile/addresses" element={<Addresses />} />
           <Route path="/profile/family" element={<FamilyMembers />} />

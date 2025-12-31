@@ -1,7 +1,9 @@
 
 import React from 'react';
-import { useNavigate, useLocation, Outlet } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCartStore } from '../store/cartStore';
+import DesktopHeader from './ui/DesktopHeader';
+import Footer from './ui/Footer';
 
 interface NavItemProps {
   item: any;
@@ -39,7 +41,7 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 pb-safe pt-2 px-6 shadow-[0_-4px_20px_-2px_rgba(0,0,0,0.05)] z-50 rounded-t-3xl">
+    <nav className="lg:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 pb-safe pt-2 px-6 shadow-[0_-4px_20px_-2px_rgba(0,0,0,0.05)] z-50 rounded-t-3xl">
       <div className="flex justify-between items-center h-16">
         {navItems.map((item, idx) => {
            // Insert center FAB button in middle
@@ -50,7 +52,7 @@ const BottomNav = () => {
                     <button 
                       id="cart-icon-target"
                       onClick={() => navigate('/cart')}
-                      className="flex items-center justify-center size-14 rounded-full bg-primary text-white shadow-[0_10px_30px_-5px_rgba(19,127,236,0.3)] hover:bg-primary-dark transition-all active:scale-95 relative"
+                      className="flex items-center justify-center size-14 rounded-full bg-primary text-white shadow-[0_10px_30px_-5px_rgba(13,148,136,0.3)] hover:bg-primary-dark transition-all active:scale-95 relative"
                     >
                       <span className="material-symbols-outlined text-2xl">shopping_cart</span>
                       {cartItemsCount > 0 && <span className="absolute top-1 right-1 flex items-center justify-center size-4 bg-red-500 rounded-full text-[10px] text-white font-bold border border-white dark:border-gray-900">{cartItemsCount}</span>}
@@ -71,10 +73,16 @@ const BottomNav = () => {
   );
 };
 
-export const Layout = () => {
+export const Layout = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <div className="min-h-screen bg-bg-light dark:bg-bg-dark pb-24 font-sans">
-      <Outlet />
+    <div className="min-h-screen bg-bg-light dark:bg-bg-dark pb-0 lg:pb-0 font-sans flex flex-col">
+      <DesktopHeader />
+      <div className="flex-1 w-full max-w-[1920px] mx-auto">
+        {children}
+      </div>
+      <div className="hidden lg:block">
+        <Footer />
+      </div>
       <BottomNav />
     </div>
   );

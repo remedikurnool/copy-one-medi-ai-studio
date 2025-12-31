@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DOCTORS } from '../../constants';
 import PrescriptionUpload from '../../components/ui/PrescriptionUpload';
 
